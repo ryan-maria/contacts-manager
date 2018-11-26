@@ -8,30 +8,26 @@ import java.util.*;
 
 public class ContactsApp {
 
-    private static Path p = Paths.get("src/contacts.txt");
+    private static Path p = Paths.get("src","contacts.txt");
 
     private static Input input = new Input(new Scanner(System.in));
 //    private Map<String, Integer> contacts = new HashMap<>();
 
     private static List<Contact> contacts = new ArrayList<>();
 
-    private static void rewrite() {
-
-        ArrayList<String> printContacts = new ArrayList<>();
-
-        for (Contact contact : contacts) {
-            printContacts.add(contact.getName() + " " + contact.getPhone());
-        }
-
+    private static void populateContacts(){
+        List<String> contactStrings = new ArrayList<>();
         try {
-            Files.write(p, printContacts);
+            contactStrings = Files.readAllLines(p);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    public static void menu(){
+
+
+    private static void menu(){
         String output = "1. view\n"
                 + "2. add \n"
                 + "3. search\n"
@@ -41,7 +37,6 @@ public class ContactsApp {
     }
 
     public static void init(){
-        menu();
         if (!Files.exists(p)) {
             try {
                 Files.createFile(p);
@@ -49,11 +44,16 @@ public class ContactsApp {
                 e.printStackTrace();
             }
         }
-        action(input.getInt(1, 5, "Enter an option"));
+
+        menu();
+        //Take a moment to appreciate how cool this is~
+        if(action(input.getInt(1, 5, "Enter an option\n"))){
+            init();
+        }
 
     }
 
-    public static boolean action(int choice){
+    private static boolean action(int choice){
         boolean continueRunning = true;
         switch(choice){
             case 1:
@@ -77,16 +77,35 @@ public class ContactsApp {
         return continueRunning;
     }
 
-    public static void view() {
+    private static void rewrite() {
+
+        ArrayList<String> printContacts = new ArrayList<>();
+
+        for (Contact contact : contacts) {
+            printContacts.add(contact.getName() + " " + contact.getPhone());
+        }
 
         try {
-            System.out.println(Files.readAllLines(p));
+            Files.write(p, printContacts);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
-    public static void add() {
+    private static void view() {
+        List<String> outputs = new ArrayList<>();
+        try {
+            outputs = Files.readAllLines(p);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        for(String output : outputs){
+            System.out.println(output + "\n");
+        }
+    }
+
+    private static void add() {
         String name = input.getString("What is the name of the contact?");
         Integer phone = input.getInt("What is the phone number?");
 
@@ -96,30 +115,26 @@ public class ContactsApp {
 
     }
 
-    public static void search(String keyName) {
-
-
-
+    private static void search(String keyName) {
+        System.out.println("In search method");
         for (Contact contact : contacts) {
-            if (contact.getName().equals(keyName)) {
-                System.out.println(contact.getName() + " " + contact.getPhone());
-            } else {
+            System.out.println("In search loop");
+//            if (contact.getName().equals(keyName)) {
+                System.out.println("Found");
+//                System.out.println(contact.getName() + " " + contact.getPhone());
+//            } else {
                 System.out.println("Contact not found!");
-            }
+//            }
         }
     }
 
-    public static void delete(String keyName) {
-
+    private static void delete(String keyName) {
         for (Contact contact : contacts) {
             if (contact.getName().equals(keyName)) {
                 contacts.remove(contacts.indexOf(contact));
             }
         }
-
         rewrite();
-
-
     }
 
     public static void main(String[] args) {

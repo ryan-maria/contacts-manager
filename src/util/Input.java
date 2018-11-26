@@ -64,11 +64,11 @@ public class Input {
     }
 
     public int getInt(int min, int max){
-        int input = getInt(String.format("Please enter an integer between %d and %d%n", min, max));
+        int input = getInt(String.format("Please enter an integer between %d and %d:%n", min, max));
         return (input >= min && input <= max)? input: getInt(min, max);
     }
     public int getInt(int min, int max, String prompt){
-        int input = getInt(String.format(prompt + "Please enter an integer between %d and %d%n", min, max));
+        int input = getInt(String.format(prompt + "Please enter an integer between %d and %d:%n", min, max));
         return (input >= min && input <= max)? input: getInt(min, max);
     }
 
