@@ -67,6 +67,10 @@ public class Input {
         int input = getInt(String.format("Please enter an integer between %d and %d%n", min, max));
         return (input >= min && input <= max)? input: getInt(min, max);
     }
+    public int getInt(int min, int max, String prompt){
+        int input = getInt(String.format(prompt + "Please enter an integer between %d and %d%n", min, max));
+        return (input >= min && input <= max)? input: getInt(min, max);
+    }
 
     public double getDouble(double min, double max){
         double input = getDouble(String.format("Please enter a double between %.1f and %.1f%n", min, max));
