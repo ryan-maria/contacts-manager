@@ -8,12 +8,79 @@ import java.util.*;
 
 public class ContactsApp {
 
-    private static Path p = Paths.get("src/contacts.txt");
+    private static Path p = Paths.get("src","contacts.txt");
 
     private static Input input = new Input(new Scanner(System.in));
 //    private Map<String, Integer> contacts = new HashMap<>();
 
     private static List<Contact> contacts = new ArrayList<>();
+
+    private static void populateContacts(){
+        List<String> contactStrings = new ArrayList<>();
+        try {
+            contactStrings = Files.readAllLines(p);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for(String contactString : contactStrings){
+            List<String> contactInfo = new ArrayList<>(Arrays.asList(contactString.split(" ")));
+//            contacts = new ArrayList<>();
+            contacts.add(new Contact(contactInfo.get(0), contactInfo.get(1), Integer.parseInt(contactInfo.get(2))));//add contact object
+        }
+
+    }
+
+    private static void menu(){
+        String output = "1. view\n"
+                + "2. add \n"
+                + "3. search\n"
+                + "4. delete\n"
+                + "5. exit";
+        System.out.println(output);
+    }
+
+    public static void init(){
+        if (!Files.exists(p)) {
+            try {
+                Files.createFile(p);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        menu();
+        //Take a moment to appreciate how cool this is~
+        if(action(input.getInt(1, 5, "Enter an option\n"))){
+            init();
+        }
+
+    }
+
+    private static boolean action(int choice){
+        boolean continueRunning = true;
+        switch(choice){
+            case 1:
+                view();
+                break;
+            case 2:
+                add();
+                break;
+            case 3:
+                search(input.getString("Enter contact name"));
+                break;
+            case 4:
+                delete(input.getString("Enter contact name to delete"));
+                break;
+            case 5:
+                if(input.yesNo("Are you sure you want to exit?")){
+                    continueRunning = false;
+//                    rewrite();
+                }
+                break;
+        }
+        return continueRunning;
+    }
 
     private static void rewrite() {
 
@@ -31,99 +98,57 @@ public class ContactsApp {
 
     }
 
-    public static void menu(){
-        String output = "1. view\n"
-                + "2. add \n"
-                + "3. search\n"
-                + "4. delete\n"
-                + "5. exit";
-        System.out.println(output);
-    }
-
-    public static void init(){
-        menu();
-        if (!Files.exists(p)) {
-            try {
-                Files.createFile(p);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        action(input.getInt(1, 5, "Enter an option"));
-
-    }
-
-    public static boolean action(int choice){
-        boolean continueRunning = true;
-        switch(choice){
-            case 1:
-                view();
-                break;
-            case 2:
-                add();
-                break;
-            case 3:
-                search(input.getString("Enter contact name"));
-                break;
-            case 4:
-                delete(input.getString("Enter contact name to delete"));
-                break;
-            case 5:
-                if(!input.yesNo("Continue running?")){
-                    continueRunning = false;
-                }
-                break;
-        }
-        return continueRunning;
-    }
-
-    public static void view() {
-
+    private static void view() {
+        List<String> outputs = new ArrayList<>();
         try {
-            System.out.println(Files.readAllLines(p));
+            outputs = Files.readAllLines(p);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        for(String output : outputs){
+            System.out.println(output + "\n");
+        }
     }
 
-    public static void add() {
-        String name = input.getString("What is the name of the contact?");
+    private static void add() {
+        String firstName = input.getString("What is the first name of the contact?");
+        String lastName = input.getString("What is the last name of the contact?");
         Integer phone = input.getInt("What is the phone number?");
 
-        Contact newContact = new Contact(name, phone);
+        Contact newContact = new Contact(firstName.trim(), lastName.trim(), phone);
         contacts.add(newContact);
         rewrite();
 
     }
 
-    public static void search(String keyName) {
-
-
-
+    private static void search(String keyName) {
+        System.out.println("In search method");
         for (Contact contact : contacts) {
-            if (contact.getName().equals(keyName)) {
-                System.out.println(contact.getName() + " " + contact.getPhone());
+            System.out.println("In search loop");
+            if (contact.getName().trim().equals(keyName)) {
+//                System.out.println("Found");
+                System.out.printf("%s %d%n", contact.getName(), contact.getPhone());
             } else {
                 System.out.println("Contact not found!");
             }
         }
     }
 
-    public static void delete(String keyName) {
-
+    private static void delete(String keyName) {
+        int index = -1;
         for (Contact contact : contacts) {
-            if (contact.getName().equals(keyName)) {
-                contacts.remove(contacts.indexOf(contact));
+            if (contact.getName().trim().equals(keyName)) {
+                index = contacts.indexOf(contact);
+//                contacts.remove(contacts.indexOf(contact));
+
             }
         }
-
+        contacts.remove(index);
         rewrite();
-
-
     }
 
     public static void main(String[] args) {
-
+        populateContacts();
         init();
 
     }

@@ -1,14 +1,17 @@
 public class Contact {
-    private String _name;
+    private String _firstName;
+    private String _lastName;
     private Integer _phone;
 
-    public Contact(String name, Integer phone){
-        this._name = name;
+    public Contact(String firstName, String lastName, Integer phone){
+        this._firstName = firstName;
+        this._lastName = lastName;
         this._phone = phone;
     }
 
-    public void setName(String name){
-        this._name = name;
+    public void setName(String firstName, String lastName){
+        this._firstName = firstName;
+        this._lastName = lastName;
     }
 
     public void setPhone(Integer phone){
@@ -16,7 +19,7 @@ public class Contact {
     }
 
     public String getName(){
-        return this._name;
+        return this._firstName + " " + this._lastName;
     }
 
     public Integer getPhone(){
