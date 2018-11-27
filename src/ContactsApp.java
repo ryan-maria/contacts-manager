@@ -67,7 +67,7 @@ public class ContactsApp {
                 add();
                 break;
             case 3:
-                search(input.getString("Enter contact name"));
+                search(input.getString("Enter first name"), input.getString("Enter last name"));
                 break;
             case 4:
                 delete(input.getString("Enter contact name to delete"));
@@ -101,26 +101,35 @@ public class ContactsApp {
     private static void view() {
         String output = "Name      | Phone Number |\n" +
                 "--------------------------\n";
-
         for(Contact contact : contacts){
-            List<String> phoneDigits = new ArrayList<>(Arrays.asList(contact.getPhone().toString().split("")));
-            phoneDigits.add(3, "-");
-            String phoneNumber = (arrayListToString(phoneDigits));
-            output += String.format("%-10s| %-13s|%n",contact.getName(),phoneNumber);
+//            List<String> phoneDigits = new ArrayList<>(Arrays.asList(contact.getPhone().toString().split("")));
+//            phoneDigits.add(3, "-");
+//            String phoneNumber = (arrayListToString(phoneDigits));
+            output += formatContact(contact);
         }
+//        output += formatArrayList(contacts);
         System.out.println(output);
     }
 
-    private static void add() {
-        String firstName = input.getString("What is the first name of the contact?");
-        String lastName = input.getString("What is the last name of the contact?");
-        Integer phone = input.getInt("What is the phone number?");
+    public static String formatContact(Contact contact){
+        String output = "";
+        List<String> phoneDigits = new ArrayList<>(Arrays.asList(contact.getPhone().toString().split("")));
+        phoneDigits.add(3, "-");
+        String phoneNumber = (arrayListToString(phoneDigits));
+        output += String.format("%-10s| %-13s|%n",contact.getName(),phoneNumber);
 
-        if (search(firstName + " " + lastName)) {
+        return output;
+    }
+
+    private static void add() {
+        String firstName = input.getString("What is the first name of the contact?").trim();
+        String lastName = input.getString("What is the last name of the contact?").trim();
+
+        if (search(firstName + " " + lastName) != -1) {
             System.out.println("Duplicate contact found");
         } else {
-
-            Contact newContact = new Contact(firstName.trim(), lastName.trim(), phone);
+            Integer phone = input.getInt("What is the phone number?");
+            Contact newContact = new Contact(firstName, lastName, phone);
             System.out.println("              ____ \n" +
                     "    .__      /_   |\n" +
                     "  __|  |___   |   |\n" +
@@ -131,9 +140,17 @@ public class ContactsApp {
             rewrite();
         }
     }
+    private static int search(String keyName){
+        int index = -1;
+        for (Contact contact : contacts) {
+            if (contact.getName().trim().equals(keyName)) {
+                index = contacts.indexOf(contact);
+            }
+        }
+        return index;
+    }
 
-
-    private static boolean search(String keyName) {
+    private static void search(String firstName, String lastName) {
 
         System.out.println("                                          ╓æφ@@α. ,╦æ╣░  ░─\n" +
                 "                                      ,╤φ╪░        `▓▓▓▄ -   è\n" +
@@ -162,15 +179,16 @@ public class ContactsApp {
                 "                                            ╘╬#▄╗J░\"─░▓▓╜\n" +
                 "                                               \"╧╨╙╙░╝`\n");
 
-        for (Contact contact : contacts) {
-            if (contact.getName().trim().equals(keyName)) {
-//                System.out.println("Found");
-                System.out.printf("%s %d%n", contact.getName(), contact.getPhone());
-                return true;
-            }
+
+        int index = search(firstName + " " + lastName);
+        if(index != -1){
+            String output = "Name      | Phone Number |\n" +
+                    "--------------------------\n";
+            output += formatContact(contacts.get(index));
+            System.out.println(output);
+        } else{
+            System.out.println("Contact not found!");
         }
-        System.out.println("Contact not found!");
-        return false;
     }
 
     private static void delete(String keyName) {
