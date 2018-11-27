@@ -23,9 +23,13 @@ public class ContactsApp {
             e.printStackTrace();
         }
 
+        for(String contactString : contactStrings){
+            List<String> contactInfo = new ArrayList<>(Arrays.asList(contactString.split(" ")));
+//            contacts = new ArrayList<>();
+            contacts.add(new Contact(contactInfo.get(0), contactInfo.get(1), Integer.parseInt(contactInfo.get(2))));//add contact object
+        }
+
     }
-
-
 
     private static void menu(){
         String output = "1. view\n"
@@ -69,8 +73,9 @@ public class ContactsApp {
                 delete(input.getString("Enter contact name to delete"));
                 break;
             case 5:
-                if(!input.yesNo("Continue running?")){
+                if(input.yesNo("Are you sure you want to exit?")){
                     continueRunning = false;
+//                    rewrite();
                 }
                 break;
         }
@@ -106,10 +111,11 @@ public class ContactsApp {
     }
 
     private static void add() {
-        String name = input.getString("What is the name of the contact?");
+        String firstName = input.getString("What is the first name of the contact?");
+        String lastName = input.getString("What is the last name of the contact?");
         Integer phone = input.getInt("What is the phone number?");
 
-        Contact newContact = new Contact(name, phone);
+        Contact newContact = new Contact(firstName.trim(), lastName.trim(), phone);
         contacts.add(newContact);
         rewrite();
 
@@ -119,26 +125,30 @@ public class ContactsApp {
         System.out.println("In search method");
         for (Contact contact : contacts) {
             System.out.println("In search loop");
-//            if (contact.getName().equals(keyName)) {
-                System.out.println("Found");
-//                System.out.println(contact.getName() + " " + contact.getPhone());
-//            } else {
+            if (contact.getName().trim().equals(keyName)) {
+//                System.out.println("Found");
+                System.out.printf("%s %d%n", contact.getName(), contact.getPhone());
+            } else {
                 System.out.println("Contact not found!");
-//            }
+            }
         }
     }
 
     private static void delete(String keyName) {
+        int index = -1;
         for (Contact contact : contacts) {
-            if (contact.getName().equals(keyName)) {
-                contacts.remove(contacts.indexOf(contact));
+            if (contact.getName().trim().equals(keyName)) {
+                index = contacts.indexOf(contact);
+//                contacts.remove(contacts.indexOf(contact));
+
             }
         }
+        contacts.remove(index);
         rewrite();
     }
 
     public static void main(String[] args) {
-
+        populateContacts();
         init();
 
     }
