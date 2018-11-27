@@ -116,19 +116,24 @@ public class ContactsApp {
         String lastName = input.getString("What is the last name of the contact?");
         Integer phone = input.getInt("What is the phone number?");
 
-        Contact newContact = new Contact(firstName.trim(), lastName.trim(), phone);
-        System.out.println("              ____ \n" +
-                "    .__      /_   |\n" +
-                "  __|  |___   |   |\n" +
-                " /__    __/   |   |\n" +
-                "    |__|      |___|\n" +
-                "                   ");
-        contacts.add(newContact);
-        rewrite();
+        if (search(firstName + " " + lastName)) {
+            System.out.println("Duplicate contact found");
+        } else {
 
+            Contact newContact = new Contact(firstName.trim(), lastName.trim(), phone);
+            System.out.println("              ____ \n" +
+                    "    .__      /_   |\n" +
+                    "  __|  |___   |   |\n" +
+                    " /__    __/   |   |\n" +
+                    "    |__|      |___|\n" +
+                    "                   ");
+            contacts.add(newContact);
+            rewrite();
+        }
     }
 
-    private static void search(String keyName) {
+
+    private static boolean search(String keyName) {
 
         System.out.println("                                          ╓æφ@@α. ,╦æ╣░  ░─\n" +
                 "                                      ,╤φ╪░        `▓▓▓▄ -   è\n" +
@@ -161,10 +166,11 @@ public class ContactsApp {
             if (contact.getName().trim().equals(keyName)) {
 //                System.out.println("Found");
                 System.out.printf("%s %d%n", contact.getName(), contact.getPhone());
-            } else {
-                System.out.println("Contact not found!");
+                return true;
             }
         }
+        System.out.println("Contact not found!");
+        return false;
     }
 
     private static void delete(String keyName) {
