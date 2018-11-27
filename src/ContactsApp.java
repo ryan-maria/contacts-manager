@@ -192,27 +192,35 @@ public class ContactsApp {
     }
 
     private static void delete(String keyName) {
-        int index = -1;
-        for (Contact contact : contacts) {
-            if (contact.getName().trim().equals(keyName)) {
-                index = contacts.indexOf(contact);
+        if (keyName.equals("Order 66")) {
+            System.out.println("     _.-^^---....,,--       \n" +
+                    " _--                  --_  \n" +
+                    "<                        >)\n" +
+                    "|                         | \n" +
+                    " \\._                   _./  \n" +
+                    "    ```--. . , ; .--'''       \n" +
+                    "          | |   |             \n" +
+                    "       .-=||  | |=-.   \n" +
+                    "       `-=#$%&%$#=-'   \n" +
+                    "          | ;  :|     \n" +
+                    " _____.,-#%&$@%#&#~,._____");
+            System.out.println("Execute Order 66");
 
+//                Files.write(p, new ArrayList<>(Arrays.asList("")));
+                contacts = new ArrayList<>();
+
+        } else {
+            int index = -1;
+            for (Contact contact : contacts) {
+                if (contact.getName().trim().equals(keyName)) {
+                    index = contacts.indexOf(contact);
+
+                }
             }
+            System.out.println("ELIMINATED");
+            contacts.remove(index);
+            rewrite();
         }
-        System.out.println("     _.-^^---....,,--       \n" +
-                " _--                  --_  \n" +
-                "<                        >)\n" +
-                "|                         | \n" +
-                " \\._                   _./  \n" +
-                "    ```--. . , ; .--'''       \n" +
-                "          | |   |             \n" +
-                "       .-=||  | |=-.   \n" +
-                "       `-=#$%&%$#=-'   \n" +
-                "          | ;  :|     \n" +
-                " _____.,-#%&$@%#&#~,._____");
-        System.out.println("ELIMINATED");
-        contacts.remove(index);
-        rewrite();
     }
 
     public static String arrayListToString(List<String> arrayListObjs){
