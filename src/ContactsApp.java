@@ -99,17 +99,16 @@ public class ContactsApp {
     }
 
     private static void view() {
-        List<String> outputs = new ArrayList<>();
-        try {
-            outputs = Files.readAllLines(p);
-        } catch (IOException e) {
-            e.printStackTrace();
+        String output = "Name      | Phone Number |\n" +
+                "--------------------------\n";
+
+        for(Contact contact : contacts){
+            List<String> phoneDigits = new ArrayList<>(Arrays.asList(contact.getPhone().toString().split("")));
+            phoneDigits.add(3, "-");
+            String phoneNumber = (arrayListToString(phoneDigits));
+            output += String.format("%-10s| %-13s|%n",contact.getName(),phoneNumber);
         }
-        System.out.println("Name      | Phone");
-        System.out.println("-----------------");
-        for(String output : outputs){
-            System.out.println(output + "\n");
-        }
+        System.out.println(output);
     }
 
     private static void add() {
@@ -173,7 +172,6 @@ public class ContactsApp {
         for (Contact contact : contacts) {
             if (contact.getName().trim().equals(keyName)) {
                 index = contacts.indexOf(contact);
-//                contacts.remove(contacts.indexOf(contact));
 
             }
         }
@@ -191,6 +189,14 @@ public class ContactsApp {
         System.out.println("ELIMINATED");
         contacts.remove(index);
         rewrite();
+    }
+
+    public static String arrayListToString(List<String> arrayListObjs){
+        String output = "";
+        for(String arrayListObj : arrayListObjs){
+            output += arrayListObj;
+        }
+        return output;
     }
 
     public static void main(String[] args) {
