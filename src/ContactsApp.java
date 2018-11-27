@@ -105,6 +105,8 @@ public class ContactsApp {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("Name      | Phone");
+        System.out.println("-----------------");
         for(String output : outputs){
             System.out.println(output + "\n");
         }
@@ -116,15 +118,47 @@ public class ContactsApp {
         Integer phone = input.getInt("What is the phone number?");
 
         Contact newContact = new Contact(firstName.trim(), lastName.trim(), phone);
+        System.out.println("              ____ \n" +
+                "    .__      /_   |\n" +
+                "  __|  |___   |   |\n" +
+                " /__    __/   |   |\n" +
+                "    |__|      |___|\n" +
+                "                   ");
         contacts.add(newContact);
         rewrite();
 
     }
 
     private static void search(String keyName) {
-        System.out.println("In search method");
+
+        System.out.println("                                          ╓æφ@@α. ,╦æ╣░  ░─\n" +
+                "                                      ,╤φ╪░        `▓▓▓▄ -   è\n" +
+                "                                   «φ░░'         ,▄¥╦▐▓▓▓▌█δ║▒▌\n" +
+                "                               ,æ╣░░          ╓▒▀╠╦▒▌ç  ╙▓▓▓▓▓▀        «@░ ░\n" +
+                "                             ╓╣╬╣▒╣╗░≥     ╓▒▀╠φ╣╬╫▓▓█╙- ┴╩ ,,▓▓▓▓▌#e▒▀▀▒╗     ≡\n" +
+                "                        ╓æφ▒░\"╟▓▓▌▒▌▒▒╗░  ▓▀@░╧▄▌▓▀╙       ⌐▓▓▓▓█▀▄▄'      ▓▄ ╔╦▒\n" +
+                "                   ╓æ▒╪░░'     ▀▓▓▓▓▌▌▒▒╬║▓▓█╦  `▒╦.    ⌐.\"▄▓▓▀Å╠≥\" .   ⌐   ╙▓▌▒▓▓\n" +
+                "               ╓æ╣░░░░'        ▀▓▓▓▓▓▓▌▒▒▒╬▓▓▓▀#▒Å  ▌▒▄Q▄╬▌▀▒╬╣╛     ─  ,─   ╤▀▓▓▓\n" +
+                "           ╓æ╣░░░░░'         ,╠▌▓▓▓▓▓▓▓▌╬▒▒╫▓▓░░░║╦▓▓▄▐▀▀Å;░░     ⌐   ⌐  ,═╛,░╣▀▀\n" +
+                "        ┌╣▀▒▒╬╪░░~       ,░░╠╢╣▓▓▓▓▓▓▓▓▌▒▒▒╣▀▀░ⁿ   ▀▓▓╠░░░░░,,=        ε┘,-╣▒╬╬▌æ\n" +
+                "      ≡╔▄▄▄░╚░  `░ ⌐⌐░░░░╠╬╣▒▌▓▓▓▓▓┘   \"^      \"╞  ╔▓░░░░░░░╠╠╬╬╬φ╕    ╔Σ╣╠╗╬▀▀╣▓╕\n" +
+                "      ║▓▓▓█▓▌,\", »╠╬╠╠╬╣▒▒▌▓▓▓▓▓▓┘                   '╪░░░░╠╬╬▒▒▒▒▀▒▒╦|░╦╣▒▀▒▒▓▓▓▀\n" +
+                "      ╚▓▓▓▓▓▓▄╣,╚╠╬╬▌▒▒▌▓▓▓▓▓▓▓\"                       \"░░░╨╜╙\"  `\"╚╙▀▒▄╠╬╣▒█▌▓▓'\n" +
+                "       ╚▓▓▓▓▓▓▌░░╙▒▒▌▓▓▓▓▓▓▓▓`                        ╓φ╪'           %φ╠╣▒▌▌▓▓▌\n" +
+                "        \"▓▓▓▓▒▀▓▄░╙▓▓▓▓▓▓▓▌                       «φφ░            ░░╦╬▀▌▌▓▓▓▓`\n" +
+                "          ╚█╬╝╬╦▒█▌▀▓▓▓▓┘                     .æ▒░░             ░░╠╣╣▒▌▓▓▓▓`\n" +
+                "            ╘╚▀▌▌▄░╫▓┘                     ╒é╬░░░'          ,░░╠╬╣▒▒▌▓▓▓█\n" +
+                "               `\"─\"                     .é╣╬╬░░\"\"-      .░░░╠╬╣▒▒▌▌▓▓▓╜\n" +
+                "                                       ╣▄▄R▄▄      @Q░░╠╠╬╬╣▒▒▌▌▓▓▓▓▌\n" +
+                "                                      ╞▓▓▓▌▓▓▌δ╕`╦░╦╠▌▄▒╣▒▒▌▓▓▓▓▓▓█\n" +
+                "                                       █▓▓▓▌▓▓▄░░ ╚▒▒╬▀▓▌▓▓▓▓▓▓▓▓`\n" +
+                "                                       ╘▓▓▓▓▓▓▓▌░░░╙▌▌▌▓▓▓▓▓▓▓▓┘\n" +
+                "                                        '▓▓▓▓▓▌▓▓▄, ⌡▓▓▓▓▓▓▓▓┘\n" +
+                "                                          ╘▓▓▀▒░»▀█▓▓▐▓▓▓▓█'\n" +
+                "                                            ╘╬#▄╗J░\"─░▓▓╜\n" +
+                "                                               \"╧╨╙╙░╝`\n");
+
         for (Contact contact : contacts) {
-            System.out.println("In search loop");
             if (contact.getName().trim().equals(keyName)) {
 //                System.out.println("Found");
                 System.out.printf("%s %d%n", contact.getName(), contact.getPhone());
@@ -143,6 +177,18 @@ public class ContactsApp {
 
             }
         }
+        System.out.println("     _.-^^---....,,--       \n" +
+                " _--                  --_  \n" +
+                "<                        >)\n" +
+                "|                         | \n" +
+                " \\._                   _./  \n" +
+                "    ```--. . , ; .--'''       \n" +
+                "          | |   |             \n" +
+                "       .-=||  | |=-.   \n" +
+                "       `-=#$%&%$#=-'   \n" +
+                "          | ;  :|     \n" +
+                " _____.,-#%&$@%#&#~,._____");
+        System.out.println("ELIMINATED");
         contacts.remove(index);
         rewrite();
     }
